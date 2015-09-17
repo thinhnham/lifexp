@@ -1,0 +1,140 @@
+<!-- index.html - written by Thinh (Tim) Nham-->
+<!-- Date Created: April 25,2015 -->
+<!-- this is the html code for interface of the Life Expectancy Calculator -->
+<!DOCTYPE html>
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding"> 
+	<!--style-sheets-->
+	<link href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="style.css">    
+	<!--libraries-->
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+	<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="js/functions.js"></script>
+	<!-- style -->
+	<style>
+	#data_table tr:nth-child(odd){background:#FFFFFF}
+	#data_table tr:nth-child(even){background:#d9edf7}
+	#data_table td{ text-align: center}
+
+	</style>
+</head>
+<body>
+	<div class="row">
+	<center><h3><b>Life Expectancy Calculator</b></h3></center>
+	</div>
+	<hr>
+	<div class='container'>
+		<div class = "row" ><center><font color='#A30000'><span id='notification'style="position:absolute;margin-left:-3.5%;text_align:justified" ></span></font></center></div>
+		<br><br>
+		<div class = "row">
+			<div class= "col-sm-6">
+				<div class="panel panel-info">
+					<div class='panel-heading' style='text-align:center'><b>User Inputs</b></div>
+					<div class='panel-body'>
+						<center>
+						<table class="table_style" >
+							<tr>
+								<td><h4><span class="label label-success">Gender</span></h4></td>
+								<td><center><input type='radio' value='1' name='gender'checked/> Male</center></td>
+								<td><center><input type='radio' value='0' name='gender'/> Female</center></td>
+								<td></td>	
+							</tr>			
+							<tr>
+								<th></th>
+								<th><b>Month</b></th>
+								<th><b>Year</b></th>
+								<th></th>
+							</tr>
+							<tr>
+								<td>Birth Date</td>
+								<td><input type='text' class='spinner' name = 'birth_month' id = 'birth_month' value = '7' maxlength="2" /></td>
+								<td><input type='text' class='spinner' name = 'birth_year'  id = 'birth_year' value = '1975' maxlength="4"/></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>Date</td>
+								<td><input type='text' class='spinner' name = 'date_month' id = 'date_month' value='<?=date('n')?>' maxlength="2"/></td>
+								<td><input type='text' class='spinner' name = 'date_year'  id = 'date_year'  value='<?=date('Y')?>' maxlength="4"/></td>
+								<td><button id='today' class='btn btn-primary'>Today</button></td>
+							</tr>
+							<tr>
+								<td>Age</td>
+								<td><input type='text' class='spinner' name = 'age_year' id = 'age_year' maxlength="3"/></td>
+								<td><input type='text' class='spinner' name = 'age_month' id = 'age_month' maxlength="2"/></td>
+								<td>Years and Months</td>
+							</tr>
+						</table>
+						</center>
+					</div><br><br>
+				</div>
+			</div>
+			<div class= "col-sm-6">
+				<div class="panel panel-info">
+					<div class='panel-heading' style='text-align:center'><b>Results</b></div>
+					<div class='panel-body'>
+						<center><h4>Life Expectancy</h4><hr></hr></center>
+						<center>
+						<table class='table_style'>
+							<tr><th>Expected Survival Years</th><th>Total Years</th></tr>
+							<tr>	
+								<td><center><span id='lifexpyear'></span> (years)</center></td>
+								<td><center><span id='lifexptotal'></span> (to age)</center></td>	
+							</tr>
+							<tr>
+								<td>Chance of Survival (%)</td>
+								<td>
+									<center><b><span id='livepercent'></span> %</b></center><br />
+									<div id ='percent_slider'></div>
+									<input type="hidden" name = 'perchg' value = 0>
+								</td>
+							</tr>
+							<tr><th>Remaining Survival Years</th><th>Total Years</th></tr>
+							<tr>
+								<td><center><input type='text' name='survivalyears' id='survivalyears'/> (years)</center></td>
+								<td><center><input type='text' name='survivaltotalyears' id='survivaltotalyears'/> (to age)</center></td>
+								<input type="hidden" name = 'liveyrschg' value = 0>
+							</tr>
+						</table>
+						</center>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+		  <div class='col-sm-5'>
+		  		<div class="panel panel-info">
+					<div class='panel-heading' style='text-align:center'><b>Outputs</b></div>
+					<div class='panel-body'>
+					<center>
+						<div class="alert alert-success"><h5>Given your age is <span id='display_age' style='font-weight:bold'></span>, the chances of survival for the future ages are displayed below : </h5></div>
+						<div style="width:100%; height: 500px; overflow:auto;"><table id="data_table"></table></div>
+					</center>
+					</div>
+				</div>  
+		  </div>
+		  <div class='col-sm-7'>
+		    <div class="panel panel-info">
+					<div class='panel-heading' style='text-align:center'><b>Graph</b></div>
+					<div class='panel-body' >
+					<div id='curve_chart' ></div>	
+					</div>
+			</div>
+		  </div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1','packages':['corechart']}]}"></script>
+<script type="text/javascript"> 
+
+
+</script>
+<script src ='js/main.js'></script>
+<script src ='js/formatting.js'></script>
+</html>

@@ -1,0 +1,24 @@
+body{
+	font-family: Sans-serif;
+	width:100%;
+}
+
+
+.table_style tr th { text-align: center} 
+.spinner { 	position: relative;
+			width: 100%;
+		}
+.table_style {position: relative; }
+
+#percent_slider{
+	width: 100%;
+}
+
+table td { padding: 7px;}
+
+#curve_chart{
+	position: relative;
+	height: 100%;
+	width: 100%;
+}
+
